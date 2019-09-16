@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const packRouter = require('./routes/packRoutes');
 
 const app = express();
 
@@ -21,6 +22,6 @@ app.use((req, res, next) => {
 });
 
 //Mounting the Router 
-// app.use('/api/v1/portfolios', portfolioRouter);
+app.use('/api/v1/packs', packRouter);
 
 module.exports = app;
