@@ -14,17 +14,29 @@ const packSchema = new mongoose.Schema({
         type: String,
         // required: [true, 'A pack must have an image']
     },
-    packItems: {
+    items: {
         type: String,
         required: [true, 'A pack must have items']
     },
-    ItemImages: {
+    images: {
         type: [String],
         // required: [true, 'Pack items must have images']
     },
     price: {
         type: Number,
         required: [true, 'A pack must have a price']
+    },
+    type: {
+        type: String,
+        required: [true, 'A pack must have a type']
+    },
+    size: {
+        type: String,
+        required: [true, 'A pack must have a size']
+    },
+    length: {
+        type: Number,
+        required: [true, 'A pack must have a length']
     }
 });
 

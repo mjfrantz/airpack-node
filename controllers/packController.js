@@ -2,8 +2,23 @@ const Pack = require('./../models/packModel');
 
 exports.getAllPacks = async (req, res) => {
     try {
-        const packs = await Pack.find();
+        //Build Query
+        //1) Filtering
+        const queryObj = {
+            ...req.query
+        };
+        const excludeFields = ['page', 'sort', 'limit', 'fields'];
+        excludeFields.forEach(el => delete queryObj[el]);
+        //2) Advanced Filtering 
+        let queryStr = JSON.stringify(queryObj);
+        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
+        const query = Pack.find(JSON.parse(queryStr));
+
+        //Execute Query
+        const packs = await query;
+
+        //Send Response
         res.status(200).json({
             status: 'success',
             results: packs.length,
