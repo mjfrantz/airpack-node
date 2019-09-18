@@ -24,6 +24,26 @@ exports.getAllPacks = async (req, res) => {
             query = query.sort('price');
         }
 
+        //3) Field limitings
+        if (req.query.fields) {
+            const fields = req.query.fields.split(',').join(' ');
+            query = query.select(fields)
+        } else {
+            query = query.select('-__v');
+        }
+
+        //4) Pagination
+        const page = req.query.page * 1 || 1;
+        const limit = req.query.limit * 1 || 20;
+        const skip = (page - 1) * limit;
+
+        query = query.skip(skip).limit(limit);
+
+        if (req.query.page) {
+            const numPacks = await Pack.countDocuments();
+            if (skip >= numPacks) throw new Error('This page does not exist');
+        }
+
         //Execute Query
         const packs = await query;
 
