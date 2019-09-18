@@ -9,11 +9,20 @@ exports.getAllPacks = async (req, res) => {
         };
         const excludeFields = ['page', 'sort', 'limit', 'fields'];
         excludeFields.forEach(el => delete queryObj[el]);
-        //2) Advanced Filtering 
+
+        //1b) Advanced Filtering 
         let queryStr = JSON.stringify(queryObj);
         queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
-        const query = Pack.find(JSON.parse(queryStr));
+        let query = Pack.find(JSON.parse(queryStr));
+
+        //2) Sorting
+        if (req.query.sort) {
+            const sortBy = req.query.sort.split(',').join(' ');
+            query = query.sort(sortBy);
+        } else {
+            query = query.sort('price');
+        }
 
         //Execute Query
         const packs = await query;

@@ -29,14 +29,17 @@ const packSchema = new mongoose.Schema({
     type: {
         type: String,
         required: [true, 'A pack must have a type']
+        // Need to make this a drop down with different options
     },
     size: {
         type: String,
         required: [true, 'A pack must have a size']
+        // Need to make this a drop down with sizing
     },
     length: {
         type: Number,
         required: [true, 'A pack must have a length']
+        // Figure out lengths of pack 3,5,7?
     }
 });
 
