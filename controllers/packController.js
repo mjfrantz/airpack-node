@@ -1,6 +1,7 @@
 const Pack = require("./../models/packModel");
 const APIFeatures = require("./../utils/apiFeatures");
 
+
 exports.getAllPacks = async (req, res) => {
   try {
     //Execute Query
@@ -90,6 +91,39 @@ exports.deletePack = async (req, res) => {
     res.status(400).json({
       status: "fail",
       message: err
+    });
+  }
+};
+
+//SENSEI IVAN PLEASE HELP!
+exports.getPackStats = async (req, res) => {
+  try {
+    const stats = await Pack.aggregate([{
+      $group: {
+        _id: null,
+        avePrice: {
+          $avg: '$price'
+        },
+        minPrice: {
+          $min: '$price'
+        },
+        maxPrice: {
+          $max: '$price'
+        }
+      }
+    }]);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        stats
+      }
+    });
+
+  } catch (err) {
+    res.status(400).json({
+      status: "fail",
+      message: err.message
     });
   }
 };
