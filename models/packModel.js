@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+const validator = require('validator');
 
 const packSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'A pack must have a name'],
-        unique: true
+        unique: true,
+        maxlength: [60, 'A pack name must have less or equal to 60 characters'],
+        minlength: [5, 'A pack must have at least or equal to 5 characters']
     },
     slug: String,
     description: {
@@ -35,8 +38,11 @@ const packSchema = new mongoose.Schema({
     },
     size: {
         type: String,
-        required: [true, 'A pack must have a size']
-        // Need to make this a drop down with sizing
+        required: [true, 'A pack must have a size'],
+        enum: {
+            values: ['small', 'medium', 'large', 'x-large'],
+            message: 'Size is either: small, medium, large, or x-large'
+        }
     },
     length: {
         type: Number,

@@ -1,6 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const AppError = require("./utils/appError");
+const globalErrorHandler = require("./controllers/errorController");
 const packRouter = require("./routes/packRoutes");
 
 const app = express();
@@ -15,16 +17,18 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use((req, res, next) => {
-  console.log("Hello from Middleware");
-  next();
-});
-
-app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
 
 //Mounting the Router
 app.use("/api/v1/packs", packRouter);
+
+app.all('*', (req, res, next) => {
+
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
+app.use(globalErrorHandler);
 
 module.exports = app;

@@ -5,7 +5,11 @@ const APIFeatures = require("./../utils/apiFeatures");
 exports.getAllPacks = async (req, res) => {
   try {
     //Execute Query
-    const features = new APIFeatures(Pack.find(), req.query).filter().sort().limitFields().paginate();
+    const features = new APIFeatures(Pack.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
     const packs = await features.query;
 
     //Send Response
