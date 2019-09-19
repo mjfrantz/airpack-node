@@ -1,103 +1,72 @@
 const Pack = require("./../models/packModel");
 const APIFeatures = require("./../utils/apiFeatures");
+const catchAsync = require("./../utils/catchAsync");
+
+exports.getAllPacks = catchAsync(async (req, res, next) => {
+
+  //Execute Query
+  const features = new APIFeatures(Pack.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const packs = await features.query;
+
+  //Send Response
+  res.status(200).json({
+    status: "success",
+    results: packs.length,
+    data: {
+      packs
+    }
+  });
+});
+
+exports.getPack = catchAsync(async (req, res, next) => {
+
+  const pack = await Pack.findById(req.params.id);
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      pack
+    }
+  });
+});
 
 
-exports.getAllPacks = async (req, res) => {
-  try {
-    //Execute Query
-    const features = new APIFeatures(Pack.find(), req.query)
-      .filter()
-      .sort()
-      .limitFields()
-      .paginate();
-    const packs = await features.query;
+exports.createPack = catchAsync(async (req, res, next) => {
+  const newPack = await Pack.create(req.body);
 
-    //Send Response
-    res.status(200).json({
-      status: "success",
-      results: packs.length,
-      data: {
-        packs
-      }
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "Fail",
-      message: err.message
-    });
-  }
-};
+  res.status(200).json({
+    status: "success",
+    data: {
+      pack: newPack
+    }
+  });
+});
 
-exports.getPack = async (req, res) => {
-  try {
-    const pack = await Pack.findById(req.params.id);
+exports.updatePack = catchAsync(async (req, res, next) => {
+  const pack = await Pack.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidator: true
+  });
+  res.status(200).json({
+    status: "success",
+    data: {
+      pack
+    }
+  });
+});
 
-    res.status(200).json({
-      status: "success",
-      data: {
-        pack
-      }
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "Fail",
-      message: err
-    });
-  }
-};
-
-exports.createPack = async (req, res) => {
-  try {
-    const newPack = await Pack.create(req.body);
-
-    res.status(200).json({
-      status: "success",
-      data: {
-        pack: newPack
-      }
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "Fail",
-      message: err
-    });
-  }
-};
-
-exports.updatePack = async (req, res) => {
-  try {
-    const pack = await Pack.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidator: true
-    });
-    res.status(200).json({
-      status: "success",
-      data: {
-        pack
-      }
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: "Fail",
-      message: err.message
-    });
-  }
-};
-
-exports.deletePack = async (req, res) => {
+exports.deletePack = catchAsync(async (req, res, next) => {
   await Pack.findByIdAndDelete(req.params.id);
-  try {
-    res.status(204).json({
-      status: "success",
-      data: null
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "fail",
-      message: err
-    });
-  }
-};
+  res.status(204).json({
+    status: "success",
+    data: null
+  });
+});
+
 
 /*
 ENSEI IVAN PLEASE HELP! -- Aggreate stats!
