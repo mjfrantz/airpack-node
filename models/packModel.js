@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const packSchema = new mongoose.Schema({
     name: {
@@ -6,6 +7,7 @@ const packSchema = new mongoose.Schema({
         required: [true, 'A pack must have a name'],
         unique: true
     },
+    slug: String,
     description: {
         type: String,
         required: [true, 'A pack must have a description']
@@ -41,6 +43,14 @@ const packSchema = new mongoose.Schema({
         required: [true, 'A pack must have a length']
         // Figure out lengths of pack 3,5,7?
     }
+});
+
+//Document Middleware: runs before .save() and .create()
+packSchema.pre('save', function (next) {
+    this.slug = slugify(this.name, {
+        lower: true
+    });
+    next();
 });
 
 const Pack = mongoose.model('Pack', packSchema);

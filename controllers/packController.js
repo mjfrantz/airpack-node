@@ -95,7 +95,8 @@ exports.deletePack = async (req, res) => {
   }
 };
 
-//SENSEI IVAN PLEASE HELP!
+/*
+ENSEI IVAN PLEASE HELP! -- Aggreate stats!
 exports.getPackStats = async (req, res) => {
   try {
     const stats = await Pack.aggregate([{
@@ -126,4 +127,4 @@ exports.getPackStats = async (req, res) => {
       message: err.message
     });
   }
-};
+};*/
