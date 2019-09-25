@@ -4,6 +4,7 @@ const cors = require("cors");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const packRouter = require("./routes/packRoutes");
+const userRouter = require("./routes/userRoutes");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 
 //Mounting the Router
 app.use("/api/v1/packs", packRouter);
+app.use("/api/v1/users", userRouter);
 
 app.all('*', (req, res, next) => {
 

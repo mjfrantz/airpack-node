@@ -6,9 +6,19 @@ const handleCastErrorDB = err => {
 };
 
 const handleDuplicateFieldsDB = err => {
-    const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
-    console.log(value);
+
+    const value = err.errmsg.match(/(["'])(\\?.)*?\1/);
+    console.log(value);    
+
     const message = `Duplicate field value: ${value}. Please use another value!`;
+    return new AppError(message, 400);
+};
+
+handleValidationErrorDB = err => {
+   
+    const errors = Object.values(err.errors).map(el => el.message);
+
+    const message = `Invalid input data. ${errors.join('. ')}`;
     return new AppError(message, 400);
 };
 
@@ -53,6 +63,7 @@ module.exports = (err, req, res, next) => {
         };
         if (error.name === 'CastError') error = handleCastErrorDB(error);
         if (error.code === 11000) error = handleDuplicateFieldsDB(error);
+        if (error.name === 'ValidationError') error = handleValidationErrorDB(error);
 
         sendErrorProd(error, res);
     }

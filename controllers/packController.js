@@ -84,7 +84,7 @@ exports.deletePack = catchAsync(async (req, res, next) => {
 
 
 /*
-ENSEI IVAN PLEASE HELP! -- Aggreate stats!
+SENSEI IVAN PLEASE HELP! -- Aggreate stats!
 exports.getPackStats = async (req, res) => {
   try {
     const stats = await Pack.aggregate([{
