@@ -4,6 +4,7 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
+const hpp = require("hpp");
 const cors = require("cors");
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
@@ -24,6 +25,11 @@ app.use(mongoSanitize());
 
 //Data sanitization against XSS
 app.use(xss());
+
+// Prevent Parameter Pollution (**Might need to add this for the other models!)
+app.use(hpp({ 
+  whitelist: [ 'price', 'type', 'size', 'length']
+}));
 
 //Set Security HTTP Headers
 app.use(helmet());
