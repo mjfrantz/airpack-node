@@ -5,7 +5,7 @@ const authController = require('./../controllers/authController');
 
 router
 .route('/')
-.get(authController.protect, packController.getAllPacks)
+.get(packController.getAllPacks) //authController.protect 
 .post(packController.createPack);
 
 router

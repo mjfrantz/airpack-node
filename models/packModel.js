@@ -17,7 +17,7 @@ const packSchema = new mongoose.Schema({
     },
     packCoverImage: {
         type: String,
-        // required: [true, 'A pack must have an image']
+        // required: [true, 'A pack must have an cover image']
     },
     items: {
         type: String,
