@@ -4,7 +4,6 @@ const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/appError");
 
 exports.getAllPacks = catchAsync(async (req, res, next) => {
-
   //Execute Query
   const features = new APIFeatures(Pack.find(), req.query)
     .filter()
@@ -24,11 +23,10 @@ exports.getAllPacks = catchAsync(async (req, res, next) => {
 });
 
 exports.getPack = catchAsync(async (req, res, next) => {
-
   const pack = await Pack.findById(req.params.id);
 
   if (!pack) {
-    return next(new AppError('No pack found with that ID', 404))
+    return next(new AppError("No pack found with that ID", 404));
   }
 
   res.status(200).json({
@@ -38,7 +36,6 @@ exports.getPack = catchAsync(async (req, res, next) => {
     }
   });
 });
-
 
 exports.createPack = catchAsync(async (req, res, next) => {
   const newPack = await Pack.create(req.body);
@@ -58,7 +55,7 @@ exports.updatePack = catchAsync(async (req, res, next) => {
   });
 
   if (!pack) {
-    return next(new AppError('No pack found with that ID', 404))
+    return next(new AppError("No pack found with that ID", 404));
   }
 
   res.status(200).json({
@@ -73,7 +70,7 @@ exports.deletePack = catchAsync(async (req, res, next) => {
   const pack = await Pack.findByIdAndDelete(req.params.id);
 
   if (!pack) {
-    return next(new AppError('No pack found with that ID', 404))
+    return next(new AppError("No pack found with that ID", 404));
   }
 
   res.status(204).json({
@@ -81,7 +78,6 @@ exports.deletePack = catchAsync(async (req, res, next) => {
     data: null
   });
 });
-
 
 /*
 SENSEI IVAN PLEASE HELP! -- Aggreate stats!

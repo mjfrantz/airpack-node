@@ -18,7 +18,7 @@ app.use(cors());
 //Global Middleware
 
 //Body parser, reading data from body into req.body
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json({ limit: "10kb" }));
 
 //Data sanitization again NoSQL query injection
 app.use(mongoSanitize());
@@ -27,9 +27,11 @@ app.use(mongoSanitize());
 app.use(xss());
 
 // Prevent Parameter Pollution (**Might need to add this for the other models!)
-app.use(hpp({ 
-  whitelist: [ 'price', 'type', 'size', 'length']
-}));
+app.use(
+  hpp({
+    whitelist: ["price", "type", "size", "length"]
+  })
+);
 
 //Set Security HTTP Headers
 app.use(helmet());
@@ -39,13 +41,13 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-//Limit request from same API (Allow 200 request from one IP in one hour) 
+//Limit request from same API (Allow 200 request from one IP in one hour)
 const limiter = rateLimit({
   max: 200,
   windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP, please try again in an hour!' 
+  message: "Too many requests from this IP, please try again in an hour!"
 });
-app.use('/api', limiter);
+app.use("/api", limiter);
 
 //Test middleware
 app.use((req, res, next) => {
@@ -58,7 +60,11 @@ app.use((req, res, next) => {
 app.use("/api/v1/packs", packRouter);
 app.use("/api/v1/users", userRouter);
 
+<<<<<<< HEAD
 app.all('*', (req, res, next) => {
+=======
+app.all("*", (req, res, next) => {
+>>>>>>> 61c21fae0be6f8086d15bb449cf2a3feffb0a583
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
