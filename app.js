@@ -10,6 +10,7 @@ const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const packRouter = require("./routes/packRoutes");
 const userRouter = require("./routes/userRoutes");
+const mailRouter = require("./routes/mailRoutes");
 
 const app = express();
 
@@ -18,7 +19,7 @@ app.use(cors());
 //Global Middleware
 
 //Body parser, reading data from body into req.body
-app.use(express.json({ limit: "10kb" }));
+app.use(express.json({ limit: "50kb" }));
 
 //Data sanitization again NoSQL query injection
 app.use(mongoSanitize());
@@ -59,6 +60,7 @@ app.use((req, res, next) => {
 //Mounting the Router
 app.use("/api/v1/packs", packRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/mail", mailRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

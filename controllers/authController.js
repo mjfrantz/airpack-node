@@ -193,3 +193,12 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   //4. Log user in, send JWT
   createSendToken(user, 200, res);
 });
+
+exports.getAuthUser = catchAsync(async (req, res, next) => {
+  res.status(200).json({
+    status: "success",
+    data: {
+      user: req.user
+    }
+  });
+});
