@@ -3,7 +3,7 @@ const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
 const User = require("./../models/userModel");
 const catchAsync = require("./../utils/catchAsync");
-const AppError = require("./../utils/AppError");
+const AppError = require("./../utils/appError");
 const sendEmail = require("./../utils/email");
 
 const signToken = id => {
@@ -192,4 +192,13 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   //4. Log user in, send JWT
   createSendToken(user, 200, res);
+});
+
+exports.getAuthUser = catchAsync(async (req, res, next) => {
+  res.status(200).json({
+    status: "success",
+    data: {
+      user: req.user
+    }
+  });
 });

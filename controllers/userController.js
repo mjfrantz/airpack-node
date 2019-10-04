@@ -1,6 +1,6 @@
 const User = require("./../models/userModel");
 const catchAsync = require("./../utils/catchAsync");
-const AppError = require("./../utils/AppError");
+const AppError = require("./../utils/appError");
 
 //Loop through all the fields that are in obj check if it is allowed and create in new obj
 const filterObj = (obj, ...allowedFields) => {
