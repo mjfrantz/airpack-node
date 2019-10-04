@@ -65,13 +65,8 @@ userSchema.pre("save", async function(next) {
 userSchema.pre("save", function(next) {
   if (!this.isModified("password" || this.isNew)) return next();
 
-<<<<<<< HEAD
-    this.passwordChangedAt = Date.now() - 1000; // ensure the token was created after the pw has been changed!
-    next();
-=======
   this.passwordChangedAt = Date.now() - 1000; //ensure the token was created after the pw has been changed!
   next();
->>>>>>> 61c21fae0be6f8086d15bb449cf2a3feffb0a583
 });
 
 userSchema.pre(/^find/, function(next) {

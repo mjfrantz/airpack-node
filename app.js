@@ -60,11 +60,7 @@ app.use((req, res, next) => {
 app.use("/api/v1/packs", packRouter);
 app.use("/api/v1/users", userRouter);
 
-<<<<<<< HEAD
-app.all('*', (req, res, next) => {
-=======
 app.all("*", (req, res, next) => {
->>>>>>> 61c21fae0be6f8086d15bb449cf2a3feffb0a583
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
