@@ -23,7 +23,7 @@ exports.getAllPacks = catchAsync(async (req, res, next) => {
 });
 
 exports.getPack = catchAsync(async (req, res, next) => {
-  const pack = await Pack.findById(req.params.id);
+  const pack = await Pack.findById(req.params.id).populate("reviews");
 
   if (!pack) {
     return next(new AppError("No pack found with that ID", 404));
