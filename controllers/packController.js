@@ -2,6 +2,7 @@ const Pack = require('./../models/packModel');
 const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError');
+const factory = require('./handlerFactory');
 
 exports.getAllPacks = catchAsync(async (req, res, next) => {
   //Execute Query
@@ -66,18 +67,20 @@ exports.updatePack = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.deletePack = catchAsync(async (req, res, next) => {
-  const pack = await Pack.findByIdAndDelete(req.params.id);
+exports.deletePack = factory.deleteOne(Pack);
 
-  if (!pack) {
-    return next(new AppError('No pack found with that ID', 404));
-  }
+// exports.deletePack = catchAsync(async (req, res, next) => {
+//   const pack = await Pack.findByIdAndDelete(req.params.id);
 
-  res.status(204).json({
-    status: 'success',
-    data: null
-  });
-});
+//   if (!pack) {
+//     return next(new AppError('No pack found with that ID', 404));
+//   }
+
+//   res.status(204).json({
+//     status: 'success',
+//     data: null
+//   });
+// });
 
 /*
 SENSEI IVAN PLEASE HELP! -- Aggreate stats!

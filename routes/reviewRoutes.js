@@ -22,4 +22,6 @@ router
     reviewController.createReview
   ); // Only regular users can post reviews
 
+router.route('/:id').delete(reviewController.deleteReview);
+
 module.exports = router;
