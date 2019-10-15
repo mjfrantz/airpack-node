@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
-const slugify = require("slugify");
+const mongoose = require('mongoose');
+const slugify = require('slugify');
 // const validator = require('validator');
+
 
 const packSchema = new mongoose.Schema(
   {
@@ -54,6 +55,7 @@ const packSchema = new mongoose.Schema(
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
+
   }
 );
 
@@ -65,13 +67,13 @@ packSchema.virtual("reviews", {
 });
 
 //Document Middleware: runs before .save() and .create()
-packSchema.pre("save", function(next) {
+packSchema.pre('save', function(next) {
   this.slug = slugify(this.name, {
     lower: true
   });
   next();
 });
 
-const Pack = mongoose.model("Pack", packSchema);
+const Pack = mongoose.model('Pack', packSchema);
 
 module.exports = Pack;
