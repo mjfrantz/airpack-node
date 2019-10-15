@@ -1,6 +1,6 @@
 //  review / rating / createdAt / ref to Pack / ref to User
 const mongoose = require('mongoose');
-const Pack = require('./packModel');
+// const Pack = require('./packModel');
 
 const reviewSchema = new mongoose.Schema(
   {

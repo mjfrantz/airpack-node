@@ -3,7 +3,9 @@ const express = require('express');
 const router = express.Router();
 const packController = require('./../controllers/packController');
 const authController = require('./../controllers/authController');
-const reviewController = require('./../controllers/reviewController');
+const reviewRouter = require('./../routes/reviewRoutes');
+
+router.use('/:packId/reviews', reviewRouter);
 
 router
   .route('/')
@@ -18,14 +20,6 @@ router
     authController.protect,
     authController.restrictTo('admin', 'packer'),
     packController.deletePack
-  );
-
-router
-  .route('/:packId/reviews')
-  .post(
-    authController.protect,
-    authController.restrictTo('user'),
-    reviewController.createReview
   );
 
 // router.route('/pack-stats').get(packController.getPackStats);
