@@ -1,7 +1,7 @@
-const Pack = require("./../models/packModel");
-const APIFeatures = require("./../utils/apiFeatures");
-const catchAsync = require("./../utils/catchAsync");
-const AppError = require("./../utils/appError");
+const Pack = require('./../models/packModel');
+const APIFeatures = require('./../utils/apiFeatures');
+const catchAsync = require('./../utils/catchAsync');
+const AppError = require('./../utils/appError');
 
 exports.getAllPacks = catchAsync(async (req, res, next) => {
   //Execute Query
@@ -14,7 +14,7 @@ exports.getAllPacks = catchAsync(async (req, res, next) => {
 
   //Send Response
   res.status(200).json({
-    status: "success",
+    status: 'success',
     results: packs.length,
     data: {
       packs
@@ -23,14 +23,14 @@ exports.getAllPacks = catchAsync(async (req, res, next) => {
 });
 
 exports.getPack = catchAsync(async (req, res, next) => {
-  const pack = await Pack.findById(req.params.id).populate("reviews");
+  const pack = await Pack.findById(req.params.id).populate('reviews');
 
   if (!pack) {
-    return next(new AppError("No pack found with that ID", 404));
+    return next(new AppError('No pack found with that ID', 404));
   }
 
   res.status(200).json({
-    status: "success",
+    status: 'success',
     data: {
       pack
     }
@@ -41,7 +41,7 @@ exports.createPack = catchAsync(async (req, res, next) => {
   const newPack = await Pack.create(req.body);
 
   res.status(200).json({
-    status: "success",
+    status: 'success',
     data: {
       pack: newPack
     }
@@ -55,11 +55,11 @@ exports.updatePack = catchAsync(async (req, res, next) => {
   });
 
   if (!pack) {
-    return next(new AppError("No pack found with that ID", 404));
+    return next(new AppError('No pack found with that ID', 404));
   }
 
   res.status(200).json({
-    status: "success",
+    status: 'success',
     data: {
       pack
     }
@@ -70,11 +70,11 @@ exports.deletePack = catchAsync(async (req, res, next) => {
   const pack = await Pack.findByIdAndDelete(req.params.id);
 
   if (!pack) {
-    return next(new AppError("No pack found with that ID", 404));
+    return next(new AppError('No pack found with that ID', 404));
   }
 
   res.status(204).json({
-    status: "success",
+    status: 'success',
     data: null
   });
 });

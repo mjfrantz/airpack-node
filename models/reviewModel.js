@@ -1,12 +1,12 @@
 //  review / rating / createdAt / ref to Pack / ref to User
-const mongoose = require("mongoose");
-const Pack = require("./packModel");
+const mongoose = require('mongoose');
+const Pack = require('./packModel');
 
 const reviewSchema = new mongoose.Schema(
   {
     review: {
       type: String,
-      required: [true, "Review can not be empty!"]
+      required: [true, 'Review can not be empty!']
     },
     rating: {
       type: Number,
@@ -19,13 +19,13 @@ const reviewSchema = new mongoose.Schema(
     },
     pack: {
       type: mongoose.Schema.ObjectId,
-      ref: "Pack",
-      required: [true, "Review must belong to a pack."]
+      ref: 'Pack',
+      required: [true, 'Review must belong to a pack.']
     },
     user: {
       type: mongoose.Schema.ObjectId,
-      ref: "User",
-      required: [true, "Review must belong to a user."]
+      ref: 'User',
+      required: [true, 'Review must belong to a user.']
     }
   },
   {
@@ -44,12 +44,12 @@ reviewSchema.pre(/^find/, function(next) {
   //   select: "name image"
   // });
   this.populate({
-    path: "user",
-    select: "name image"
+    path: 'user',
+    select: 'name image'
   });
   next();
 });
 
-const Review = mongoose.model("Review", reviewSchema);
+const Review = mongoose.model('Review', reviewSchema);
 
 module.exports = Review;
