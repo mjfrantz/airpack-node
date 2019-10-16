@@ -19,9 +19,13 @@ router
   .post(
     authController.protect,
     authController.restrictTo('user'),
+    reviewController.setPackUserIds,
     reviewController.createReview
   ); // Only regular users can post reviews
 
-router.route('/:id').delete(reviewController.deleteReview);
+router
+  .route('/:id')
+  .patch(reviewController.updateReview)
+  .delete(reviewController.deleteReview);
 
 module.exports = router;

@@ -38,34 +38,8 @@ exports.getPack = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createPack = catchAsync(async (req, res, next) => {
-  const newPack = await Pack.create(req.body);
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      pack: newPack
-    }
-  });
-});
-
-exports.updatePack = catchAsync(async (req, res, next) => {
-  const pack = await Pack.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidator: true
-  });
-
-  if (!pack) {
-    return next(new AppError('No pack found with that ID', 404));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      pack
-    }
-  });
-});
+exports.createPack = factory.createOne(Pack);
+exports.updatePack = factory.updateOne(Pack);
 
 exports.deletePack = factory.deleteOne(Pack);
 
