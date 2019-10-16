@@ -8,11 +8,11 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Review can not be empty!']
     },
-    rating: {
-      type: Number,
-      min: 1,
-      max: 5
-    },
+    // rating: {
+    //   type: Number,
+    //   min: 1,
+    //   max: 5
+    // },
     createdAt: {
       type: Date,
       default: Date.now
@@ -33,6 +33,9 @@ const reviewSchema = new mongoose.Schema(
     toObject: { virtuals: true }
   }
 );
+
+//Does not allow a user to create another review on the same pack
+reviewSchema.index({ pack: 1, user: 1 }, { unique: true });
 
 // Populate
 reviewSchema.pre(/^find/, function(next) {
