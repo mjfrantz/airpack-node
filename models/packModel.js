@@ -2,20 +2,19 @@ const mongoose = require('mongoose');
 const slugify = require('slugify');
 // const validator = require('validator');
 
-
 const packSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "A pack must have a name"],
+      required: [true, 'A pack must have a name'],
       unique: true,
-      maxlength: [60, "A pack name must have less or equal to 60 characters"],
-      minlength: [5, "A pack must have at least or equal to 5 characters"]
+      maxlength: [60, 'A pack name must have less or equal to 60 characters'],
+      minlength: [5, 'A pack must have at least or equal to 5 characters']
     },
     slug: String,
     description: {
       type: String,
-      required: [true, "A pack must have a description"]
+      required: [true, 'A pack must have a description']
     },
     packCoverImage: {
       type: String
@@ -23,7 +22,7 @@ const packSchema = new mongoose.Schema(
     },
     items: {
       type: [String],
-      required: [true, "A pack must have items"]
+      required: [true, 'A pack must have items']
     },
     images: {
       type: [String]
@@ -31,39 +30,41 @@ const packSchema = new mongoose.Schema(
     },
     price: {
       type: Number,
-      required: [true, "A pack must have a price"]
+      required: [true, 'A pack must have a price']
     },
     type: {
       type: String,
-      required: [true, "A pack must have a type"]
+      required: [true, 'A pack must have a type']
       // Need to make this a drop down with different options
     },
     size: {
       type: String,
-      required: [true, "A pack must have a size"],
+      required: [true, 'A pack must have a size'],
       enum: {
-        values: ["small", "medium", "large", "x-large"],
-        message: "Size is either: small, medium, large, or x-large"
+        values: ['small', 'medium', 'large', 'x-large'],
+        message: 'Size is either: small, medium, large, or x-large'
       }
     },
     days: {
       type: Number,
-      required: [true, "A pack must have a number of days"]
+      required: [true, 'A pack must have a number of days']
       // Figure out lengths of pack 3,5,7?
     }
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
-
   }
 );
 
+packSchema.index({ price: 1 });
+packSchema.index({ slug: 1 });
+
 //Virtual Populate
-packSchema.virtual("reviews", {
-  ref: "Review",
-  foreignField: "pack",
-  localField: "_id"
+packSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'pack',
+  localField: '_id'
 });
 
 //Document Middleware: runs before .save() and .create()
