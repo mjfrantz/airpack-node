@@ -1,60 +1,13 @@
 const Pack = require('./../models/packModel');
-const APIFeatures = require('./../utils/apiFeatures');
-const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
+// const catchAsync = require('./../utils/catchAsync');
+// const AppError = require('./../utils/appError');
 const factory = require('./handlerFactory');
 
-exports.getAllPacks = catchAsync(async (req, res, next) => {
-  //Execute Query
-  const features = new APIFeatures(Pack.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-  const packs = await features.query;
-
-  //Send Response
-  res.status(200).json({
-    status: 'success',
-    results: packs.length,
-    data: {
-      packs
-    }
-  });
-});
-
-exports.getPack = catchAsync(async (req, res, next) => {
-  const pack = await Pack.findById(req.params.id).populate('reviews');
-
-  if (!pack) {
-    return next(new AppError('No pack found with that ID', 404));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      pack
-    }
-  });
-});
-
+exports.getAllPacks = factory.getAll(Pack);
+exports.getPack = factory.getOne(Pack, { path: 'reviews' });
 exports.createPack = factory.createOne(Pack);
 exports.updatePack = factory.updateOne(Pack);
-
 exports.deletePack = factory.deleteOne(Pack);
-
-// exports.deletePack = catchAsync(async (req, res, next) => {
-//   const pack = await Pack.findByIdAndDelete(req.params.id);
-
-//   if (!pack) {
-//     return next(new AppError('No pack found with that ID', 404));
-//   }
-
-//   res.status(204).json({
-//     status: 'success',
-//     data: null
-//   });
-// });
 
 /*
 SENSEI IVAN PLEASE HELP! -- Aggreate stats!
