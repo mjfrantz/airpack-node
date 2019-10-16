@@ -10,12 +10,20 @@ router.use('/:packId/reviews', reviewRouter);
 router
   .route('/')
   .get(packController.getAllPacks)
-  .post(packController.createPack);
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'packer'),
+    packController.createPack
+  );
 
 router
   .route('/:id')
   .get(packController.getPack)
-  .patch(packController.updatePack)
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin', 'packer'),
+    packController.updatePack
+  )
   .delete(
     authController.protect,
     authController.restrictTo('admin', 'packer'),
