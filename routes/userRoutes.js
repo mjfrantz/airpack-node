@@ -6,6 +6,7 @@ const authController = require('./../controllers/authController');
 
 router.post('/signup', authController.signUp);
 router.post('/login', authController.login);
+router.get('/logout', authController.logout);
 router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
 // router.get('/current', authController.protect, authController.getAuthUser);
@@ -17,7 +18,11 @@ router.patch('/updateMyPassword', authController.updatePassword);
 
 router.get('/me', userController.getMe, userController.getUser);
 
-router.patch('/updateMe', userController.updateMe);
+router.patch(
+  '/updateMe',
+  userController.uploadUserPhoto,
+  userController.updateMe
+);
 router.delete('/deleteMe', userController.deleteMe);
 
 //RestrictTo Middleware
